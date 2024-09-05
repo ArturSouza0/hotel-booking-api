@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CargoBody } from './dtos/criar-cargo';
+import { CargoRepository } from './repositories/cargo-repository';
 
-@Controller()
+@Controller('app')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private cargoRepository: CargoRepository) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('cargo')
+  async getCargo(@Body() body: CargoBody) {
+    const { descricao } = body;
+    await this.cargoRepository.create(descricao);
   }
 }
