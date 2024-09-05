@@ -1,0 +1,118 @@
+1. Planejamento e Design
+1.1 Definição dos Requisitos
+Para uma API de gerenciamento e reserva de hotel, as funcionalidades principais podem incluir:
+
+Gerenciamento de Usuários
+
+CRUD (Create, Read, Update, Delete) de usuários.
+Registro e autenticação de usuários.
+Gerenciamento de papéis e permissões (admin, funcionário, hóspede).
+Gerenciamento de Tipos de Quarto
+
+CRUD de tipos de quarto.
+Visualização de detalhes e preços dos tipos de quarto.
+Gerenciamento de Quartos
+
+CRUD de quartos.
+Visualização da disponibilidade de quartos.
+Atribuição de status aos quartos (disponível, reservado, manutenção).
+Gerenciamento de Planos
+
+CRUD de planos.
+Visualização de detalhes e preços dos planos.
+Gerenciamento de Contas de Hóspedes
+
+CRUD de contas de hóspedes.
+Atribuição de planos aos hóspedes.
+Atualização do status das contas (ativa, expirada).
+Gerenciamento de Reservas
+
+CRUD de reservas.
+Criação de novas reservas.
+Visualização e cancelamento de reservas.
+Atualização do status das reservas (confirmada, cancelada, concluída).
+Gerenciamento de Pagamentos
+
+CRUD de pagamentos.
+Registro de novos pagamentos.
+Atualização do status dos pagamentos (pago, pendente, falhado).
+Gerenciamento de Serviços
+
+CRUD de serviços.
+Adição e remoção de serviços nas reservas.
+Gerenciamento de Serviços Associados às Reservas
+
+CRUD de serviços associados a reservas.
+Visualização dos serviços contratados e seus preços.
+Gerenciamento de Funcionários
+
+CRUD de funcionários.
+Atribuição de papéis e status aos funcionários.
+Gerenciamento de Status
+
+CRUD de status.
+Atualização dos status utilizados nas tabelas (quartos, reservas, contas, pagamentos, funcionários).
+1.2 Desenho do Modelo de Dados
+Com base no esquema de banco de dados fornecido, o modelo de dados já está bem estruturado. Aqui está um resumo das tabelas e suas relações:
+
+Tabela usuarios: Armazena informações dos usuários.
+Tabela tipos_quarto: Armazena tipos de quartos e seus preços.
+Tabela quartos: Armazena informações sobre os quartos e seu tipo. Relaciona-se com status para indicar o estado atual do quarto.
+Tabela planos: Armazena informações sobre planos de hospedagem.
+Tabela contas_hospedes: Armazena contas de hóspedes, associadas a um plano e a um usuário. Relaciona-se com status para indicar o estado da conta.
+Tabela reservas: Armazena informações sobre reservas, associadas a uma conta de hóspede e a um quarto. Relaciona-se com status para indicar o estado da reserva.
+Tabela pagamentos: Armazena informações sobre pagamentos, associados a uma reserva. Relaciona-se com status para indicar o estado do pagamento.
+Tabela servicos: Armazena informações sobre serviços oferecidos.
+Tabela servicos_reservas: Armazena serviços associados a uma reserva.
+Tabela funcionarios: Armazena informações sobre funcionários, associados a um usuário. Relaciona-se com status para indicar o estado do funcionário.
+Tabela status: Armazena diferentes status que são usados em outras tabelas para indicar o estado atual.
+Exemplos de Requisitos para Implementação
+Usuários
+Endpoint: /api/usuarios
+GET: Listar todos os usuários.
+POST: Criar um novo usuário.
+GET: Obter detalhes de um usuário específico.
+PUT: Atualizar um usuário.
+DELETE: Remover um usuário.
+Quartos
+Endpoint: /api/quartos
+GET: Listar todos os quartos e seus status.
+POST: Adicionar um novo quarto.
+GET: Obter detalhes de um quarto específico.
+PUT: Atualizar as informações de um quarto.
+DELETE: Remover um quarto.
+Reservas
+Endpoint: /api/reservas
+GET: Listar todas as reservas e seus status.
+POST: Criar uma nova reserva.
+GET: Obter detalhes de uma reserva específica.
+PUT: Atualizar uma reserva.
+DELETE: Cancelar uma reserva.
+Pagamentos
+Endpoint: /api/pagamentos
+GET: Listar todos os pagamentos.
+POST: Registrar um novo pagamento.
+GET: Obter detalhes de um pagamento específico.
+PUT: Atualizar um pagamento.
+DELETE: Remover um pagamento.
+Serviços
+Endpoint: /api/servicos
+GET: Listar todos os serviços disponíveis.
+POST: Adicionar um novo serviço.
+GET: Obter detalhes de um serviço específico.
+PUT: Atualizar um serviço.
+DELETE: Remover um serviço.
+Funcionários
+Endpoint: /api/funcionarios
+GET: Listar todos os funcionários e seus status.
+POST: Adicionar um novo funcionário.
+GET: Obter detalhes de um funcionário específico.
+PUT: Atualizar um funcionário.
+DELETE: Remover um funcionário.
+Status
+Endpoint: /api/status
+GET: Listar todos os status.
+POST: Adicionar um novo status.
+GET: Obter detalhes de um status específico.
+PUT: Atualizar um status.
+DELETE: Remover um status.

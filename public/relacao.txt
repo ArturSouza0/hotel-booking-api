@@ -1,0 +1,28 @@
+Relacionamentos Entre Tabelas
+Tabela quarto:
+
+Relacionada com tipo_quarto através da coluna tipo_quarto_id.
+Relacionada com status através da coluna id_status.
+
+Tabela reserva:
+
+Relacionada com clientes através da coluna cliente_id.
+Relacionada com quarto através da coluna quarto_id.
+Relacionada com status através da coluna status_id.
+Relacionada com servicos através da coluna servico_id.
+Relacionada com planos através da coluna plano_id.
+
+Tabela pagamento:
+
+Relacionada com reserva através da coluna reserva_id.
+Relacionada com tipo_pagamento através da coluna tipo_pagamento_id.
+
+Tabela funcionarios:
+
+Relacionada com pessoa através da coluna pessoa_id.
+Relacionada com cargo através da coluna cargo_id.
+
+Tabela pessoa_permissao:
+
+Relacionada com pessoa através da coluna pessoa_id.
+Relacionada com permissoes através da coluna permissao_id.

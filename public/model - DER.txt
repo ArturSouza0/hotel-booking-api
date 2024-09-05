@@ -1,0 +1,112 @@
+CREATE TABLE tipo_quarto (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) NOT NULL,
+  preco_diaria DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE status (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE quarto (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  numero NVARCHAR(255) NOT NULL,
+  tipo_quarto_id BIGINT FOREIGN KEY REFERENCES tipo_quarto(id),
+  id_status BIGINT FOREIGN KEY REFERENCES status(id),
+  imagem NVARCHAR(255)
+);
+
+CREATE TABLE tipo_pagamento (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE servicos (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) NOT NULL,
+  preco DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE planos (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) NOT NULL,
+  preco DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE permissoes (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE pessoa (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  nome NVARCHAR(255) NOT NULL,
+  sobrenome NVARCHAR(255) NOT NULL,
+  email NVARCHAR(255) UNIQUE NOT NULL,
+  senha NVARCHAR(255) NOT NULL,
+  cpf NVARCHAR(11) UNIQUE NOT NULL,
+  identidade NVARCHAR(10) UNIQUE,
+  numero_contato NVARCHAR(20) NOT NULL,
+  endereco NVARCHAR(255),
+  cidade NVARCHAR(255),
+  pais NVARCHAR(255),
+  comprovante_residencia NVARCHAR(255),
+  outros_documentos NVARCHAR(255),
+  permissao_id BIGINT FOREIGN KEY REFERENCES permissoes(id),
+  data_nascimento DATE,
+  genero NVARCHAR(50),
+  nacionalidade NVARCHAR(100),
+  ativo BIT NOT NULL DEFAULT 1,
+  data_criacao DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET(),
+  data_atualizacao DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE clientes (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  pessoa_id BIGINT FOREIGN KEY REFERENCES pessoa(id),
+  numero_fidelidade NVARCHAR(50),
+  observacoes NVARCHAR(255)
+);
+
+CREATE TABLE cargo (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  descricao NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE funcionarios (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  pessoa_id BIGINT FOREIGN KEY REFERENCES pessoa(id),
+  cargo_id BIGINT FOREIGN KEY REFERENCES cargo(id)
+);
+
+CREATE TABLE reserva (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  cliente_id BIGINT FOREIGN KEY REFERENCES clientes(id),
+  quarto_id BIGINT FOREIGN KEY REFERENCES quarto(id),
+  data_checkin DATETIMEOFFSET NOT NULL,
+  data_checkout DATETIMEOFFSET NOT NULL,
+  status_id BIGINT FOREIGN KEY REFERENCES status(id),
+  servico_id BIGINT FOREIGN KEY REFERENCES servicos(id),
+  plano_id BIGINT FOREIGN KEY REFERENCES planos(id)
+);
+
+CREATE TABLE pagamento (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  reserva_id BIGINT FOREIGN KEY REFERENCES reserva(id),
+  tipo_pagamento_id BIGINT FOREIGN KEY REFERENCES tipo_pagamento(id),
+  valor DECIMAL(10, 2) NOT NULL,
+  data_pagamento DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE plano_servico (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  plano_id BIGINT FOREIGN KEY REFERENCES planos(id),
+  servico_id BIGINT FOREIGN KEY REFERENCES servicos(id)
+);
+
+CREATE TABLE pessoa_permissao (
+  id BIGINT PRIMARY KEY IDENTITY(1,1),
+  pessoa_id BIGINT FOREIGN KEY REFERENCES pessoa(id),
+  permissao_id BIGINT FOREIGN KEY REFERENCES permissoes(id)
+);
