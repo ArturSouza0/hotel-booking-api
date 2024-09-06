@@ -7,10 +7,13 @@ import { CargoController } from './controllers/cargo-controller';
 import { TipoQuartoRepository } from './repositories/tipo-quarto-repository';
 import { PrismaTipoQuartoRepository } from './repositories/prisma/prisma-tipo-quarto-repository';
 import { TipoQuartoController } from './controllers/tipo-quarto-controller';
+import { StatusRepository } from './repositories/status-repository';
+import { PrismaStatusRepository } from './repositories/prisma/prisma-status-repository';
+import { StatusController } from './controllers/status-controlller';
 
 @Module({
   imports: [],
-  controllers: [AppController, CargoController, TipoQuartoController],
+  controllers: [AppController, CargoController, TipoQuartoController, StatusController],
   providers: [
     PrismaService,
     {
@@ -18,6 +21,9 @@ import { TipoQuartoController } from './controllers/tipo-quarto-controller';
       useClass: PrismaCargoRepository,
     },
     { provide: TipoQuartoRepository, useClass: PrismaTipoQuartoRepository },
+    {
+      provide: StatusRepository, useClass: PrismaStatusRepository
+    },
   ],
 })
-export class AppModule {}
+export class AppModule { }
