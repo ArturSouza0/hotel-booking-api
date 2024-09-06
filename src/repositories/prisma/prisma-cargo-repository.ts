@@ -5,8 +5,7 @@ import { CargoBody } from 'src/dtos/criar-cargo';
 
 @Injectable()
 export class PrismaCargoRepository implements CargoRepository {
-  
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(descricao: string): Promise<void> {
     await this.prisma.cargo.create({
@@ -14,23 +13,23 @@ export class PrismaCargoRepository implements CargoRepository {
         descricao,
       },
     });
-  } 
+  }
 
   async findAll(): Promise<CargoBody[]> {
     return this.prisma.cargo.findMany();
   }
 
-  async findById(id:number): Promise<CargoBody | null> {
+  async findById(id: number): Promise<CargoBody | null> {
     return this.prisma.cargo.findUnique({
-      where: {id},
-    })
+      where: { id },
+    });
   }
 
   async update(id: number, descricao: string): Promise<void> {
-      await this.prisma.cargo.update({
-        where: {id},
-        data: {descricao}
-      });
+    await this.prisma.cargo.update({
+      where: { id },
+      data: { descricao },
+    });
   }
 
   async delete(id: number): Promise<void> {
