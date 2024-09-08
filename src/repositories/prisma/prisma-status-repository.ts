@@ -2,33 +2,35 @@ import { PrismaService } from 'src/database/prisma.service';
 import { StatusRepository } from '../status-repository';
 import { StatusBody } from 'src/dtos/criar-status';
 import { Injectable } from '@nestjs/common';
+import { Status } from 'src/entities/status-entity';
 
 @Injectable()
 export class PrismaStatusRepository implements StatusRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(descricao: string): Promise<void> {
-    await this.prisma.status.create({
+  async create(data: StatusBody): Promise<Status> {
+    return await this.prisma.status.create({
       data: {
-        descricao,
+        ...data,
       },
     });
   }
 
-  async findAll(): Promise<StatusBody[]> {
-    return this.prisma.status.findMany();
-  }
-
-  async findById(id: number): Promise<StatusBody | null> {
-    return this.prisma.status.findUnique({
+  async findById(id: number): Promise<Status | null> {
+    const status = await this.prisma.status.findUnique({
       where: { id },
     });
+    return status;
   }
 
-  async update(id: number, descricao: string): Promise<void> {
-    await this.prisma.status.update({
+  async findAll(): Promise<Status[]> {
+    return await this.prisma.status.findMany();
+  }
+
+  async update(id: number, data: Partial<StatusBody>): Promise<Status> {
+    return await this.prisma.status.update({
       where: { id },
-      data: { descricao },
+      data: { ...data },
     });
   }
 

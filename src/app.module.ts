@@ -17,6 +17,10 @@ import { PessoaController } from './controllers/pessoa-controller';
 import { PessoaRepository } from './repositories/pessoa-repository';
 import { PrismaPessoaRepository } from './repositories/prisma/prisma-pessoa-repository';
 import { PessoaService } from './services/pessoa.service';
+import { TipoQuartoService } from './services/tipo-quarto.service';
+import { StatusService } from './services/status.service';
+import { PermissaoService } from './services/permissao.service';
+import { CargoService } from './services/cargo.service';
 
 @Module({
   imports: [],
@@ -48,6 +52,10 @@ import { PessoaService } from './services/pessoa.service';
       useClass: PrismaPessoaRepository,
     },
     PessoaService,
+    TipoQuartoService,
+    StatusService,
+    PermissaoService,
+    CargoService,
   ],
 })
 export class AppModule {}

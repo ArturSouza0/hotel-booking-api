@@ -1,54 +1,62 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  ParseIntPipe,
   Post,
   Put,
+  Delete,
+  Param,
+  Body,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TipoQuartoBody } from 'src/dtos/criar-tipo-quarto';
-import { TipoQuartoRepository } from 'src/repositories/tipo-quarto-repository';
+import { TipoQuartoService } from 'src/services/tipo-quarto.service';
 
 @Controller('tipoquarto')
 export class TipoQuartoController {
-  constructor(private tipoQuartoRepository: TipoQuartoRepository) {}
-
-  @Get('listar')
-  async getAllTipoQuartos() {
-    return this.tipoQuartoRepository.findAll();
-  }
+  constructor(private readonly tipoQuartoService: TipoQuartoService) {}
 
   @Get('listar/:id')
-  async getTipoQuartoById(@Param('id', ParseIntPipe) id: number) {
-    const tipoquarto = await this.tipoQuartoRepository.findById(id);
-    if (!tipoquarto) {
-      throw new Error('Tipo quarto não encontrado');
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    const tipo_quarto = await this.tipoQuartoService.findById(id);
+    if (!tipo_quarto) {
+      return { message: 'Tipo quarto não encontrado!' };
     }
-    return tipoquarto;
+    return tipo_quarto;
+  }
+
+  @Get('listar')
+  async findAll() {
+    return await this.tipoQuartoService.findAll();
   }
 
   @Post('cadastrar')
-  async postTipoQuarto(@Body() body: TipoQuartoBody) {
-    const { descricao, preco_diaria } = body;
-    await this.tipoQuartoRepository.create(descricao, preco_diaria);
-    return { message: 'Tipo quarto cadastrado com sucesso!' };
+  async create(@Body() body: TipoQuartoBody) {
+    const tipoQuartoCriado = await this.tipoQuartoService.create(body);
+
+    return {
+      message: 'Tipo quarto cadastrado com sucesso!',
+      tipo_quarto: tipoQuartoCriado,
+    };
   }
 
   @Put('atualizar/:id')
-  async updateTipoQuarto(
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() Body: TipoQuartoBody,
+    @Body() body: Partial<TipoQuartoBody>,
   ) {
-    const { descricao, preco_diaria } = Body;
-    await this.tipoQuartoRepository.update(id, descricao, preco_diaria);
-    return { message: 'Tipo quarto atualizado com sucesso!' };
+    const tipoQuartoAtualizado = await this.tipoQuartoService.update(id, body);
+    return {
+      message: 'Tipo quarto atualizado com sucesso!',
+      tipo_quarto: tipoQuartoAtualizado,
+    };
   }
 
   @Delete('deletar/:id')
-  async deleteTipoQuarto(@Param('id', ParseIntPipe) id: number) {
-    await this.tipoQuartoRepository.delete(id);
-    return { message: 'Tipo quarto deletado com sucesso!' };
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const tipoQuartoDeletado = await this.tipoQuartoService.delete(id);
+    return {
+      message: 'Tipo quarto deletado com sucesso!',
+      tipoQuartoDeletado,
+    };
   }
 }

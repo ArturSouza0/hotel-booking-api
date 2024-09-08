@@ -9,46 +9,54 @@ import {
   Put,
 } from '@nestjs/common';
 import { CargoBody } from '../dtos/criar-cargo';
-import { CargoRepository } from '../repositories/cargo-repository';
+import { CargoService } from 'src/services/cargo.service';
 
 @Controller('cargo')
 export class CargoController {
-  constructor(private cargoRepository: CargoRepository) {}
-
-  @Get('listar')
-  async getAllCargos() {
-    return this.cargoRepository.findAll();
-  }
+  constructor(private readonly cargoService: CargoService) {}
 
   @Get('listar/:id')
-  async getCargoById(@Param('id', ParseIntPipe) id: number) {
-    const cargo = await this.cargoRepository.findById(id);
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    const cargo = await this.cargoService.findById(id);
     if (!cargo) {
       throw new Error('Cargo não encontrado');
     }
     return cargo;
   }
 
+  @Get('listar')
+  async findAll() {
+    return await this.cargoService.findAll();
+  }
+
   @Post('cadastrar')
-  async postCargo(@Body() body: CargoBody) {
-    const { descricao } = body;
-    await this.cargoRepository.create(descricao);
-    return { message: 'Cargo cadastrado com sucesso!' };
+  async create(@Body() body: CargoBody) {
+    const cargoCriado = await this.cargoService.create(body);
+
+    return {
+      message: 'Cargo cadastrado com sucesso!',
+      status_criado: cargoCriado,
+    };
   }
 
   @Put('atualizar/:id')
-  async updateCargo(
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: CargoBody,
+    @Body() body: Partial<CargoBody>,
   ) {
-    const { descricao } = body;
-    await this.cargoRepository.update(id, descricao);
-    return { message: 'Cargo atualizado com sucesso!' };
+    const cargoAtualizado = await this.cargoService.update(id, body);
+    return {
+      message: 'Cargo atualizado com sucesso!',
+      cargo_atualizado: cargoAtualizado,
+    };
   }
 
   @Delete('deletar/:id')
-  async deleteCargo(@Param('id', ParseIntPipe) id: number) {
-    await this.cargoRepository.delete(id);
-    return { message: 'Cargo deletado com sucesso!' };
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const cargoDeletado = await this.cargoService.delete(id);
+    return {
+      message: 'Cargo deletado com sucesso!',
+      cargoDeletado,
+    };
   }
 }

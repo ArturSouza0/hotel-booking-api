@@ -6,24 +6,23 @@ import { PessoaRepository } from 'src/repositories/pessoa-repository';
 export class PessoaService {
   constructor(private readonly pessoaRepository: PessoaRepository) {}
 
-  async createPessoa(body: PessoaBody) {
+  async create(body: PessoaBody) {
     return this.pessoaRepository.create(body);
   }
 
-  async updatePessoa(id: number, body: PessoaBody) {
+  async update(id: number, body: PessoaBody) {
     return this.pessoaRepository.update(id, body);
   }
 
-  async getPessoaById(id: number) {
+  async findById(id: number) {
     return this.pessoaRepository.findById(id);
   }
 
-  async getAllPessoas() {
+  async findAll() {
     return this.pessoaRepository.findAll();
   }
 
-  async deletePessoa(id: number) {
-    await this.pessoaRepository.delete(id);
-    return { message: 'Pessoa deletada com sucesso!' };
+  async delete(id: number) {
+    return await this.pessoaRepository.delete(id);
   }
 }

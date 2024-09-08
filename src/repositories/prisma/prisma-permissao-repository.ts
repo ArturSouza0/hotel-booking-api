@@ -2,33 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { PermissaoBody } from 'src/dtos/criar-permissao';
 import { PermissaoRepository } from '../permissao-repository';
+import { Permissao } from 'src/entities/permissao-entity';
 
 @Injectable()
 export class PrismaPermissaoRepository implements PermissaoRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(descricao: string): Promise<void> {
-    await this.prisma.permissoes.create({
+  async create(data: PermissaoBody): Promise<Permissao> {
+    return await this.prisma.permissoes.create({
       data: {
-        descricao,
+        ...data,
       },
     });
   }
-
-  async findAll(): Promise<PermissaoBody[]> {
-    return this.prisma.permissoes.findMany();
-  }
-
-  async findById(id: number): Promise<PermissaoBody | null> {
-    return this.prisma.permissoes.findUnique({
+  async findById(id: number): Promise<Permissao | null> {
+    const permissao = await this.prisma.permissoes.findUnique({
       where: { id },
     });
+    return permissao;
   }
 
-  async update(id: number, descricao: string): Promise<void> {
-    await this.prisma.permissoes.update({
+  async findAll(): Promise<Permissao[]> {
+    return await this.prisma.permissoes.findMany();
+  }
+
+  async update(id: number, data: Partial<PermissaoBody>): Promise<Permissao> {
+    return await this.prisma.permissoes.update({
       where: { id },
-      data: { descricao },
+      data: { ...data },
     });
   }
 

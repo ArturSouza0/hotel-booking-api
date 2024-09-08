@@ -15,30 +15,9 @@ import { PessoaBody } from 'src/dtos/criar-pessoa';
 export class PessoaController {
   constructor(private readonly pessoaService: PessoaService) {}
 
-  @Post('cadastrar')
-  async createPessoa(@Body() body: PessoaBody) {
-    const pessoaCriada = await this.pessoaService.createPessoa(body);
-    return {
-      message: 'Pessoa cadastrada com sucesso!',
-      pessoa: pessoaCriada,
-    };
-  }
-
-  @Put('atualizar/:id')
-  async updatePessoa(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: PessoaBody,
-  ) {
-    const pessoaAtualizada = await this.pessoaService.updatePessoa(id, body);
-    return {
-      message: 'Pessoa atualizada com sucesso!',
-      pessoa: pessoaAtualizada,
-    };
-  }
-
-  @Get('buscar/:id')
-  async getPessoa(@Param('id', ParseIntPipe) id: number) {
-    const pessoa = await this.pessoaService.getPessoaById(id);
+  @Get('listar/:id')
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    const pessoa = await this.pessoaService.findById(id);
     if (!pessoa) {
       return { message: 'Pessoa não encontrada!' };
     }
@@ -46,13 +25,38 @@ export class PessoaController {
   }
 
   @Get('listar')
-  async getPessoas() {
-    const pessoas = await this.pessoaService.getAllPessoas();
+  async findAll() {
+    const pessoas = await this.pessoaService.findAll();
     return pessoas;
   }
 
+  @Post('cadastrar')
+  async create(@Body() body: PessoaBody) {
+    const pessoaCriada = await this.pessoaService.create(body);
+    return {
+      message: 'Pessoa cadastrada com sucesso!',
+      pessoaCriada,
+    };
+  }
+
+  @Put('atualizar/:id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: PessoaBody,
+  ) {
+    const pessoaAtualizada = await this.pessoaService.update(id, body);
+    return {
+      message: 'Pessoa atualizada com sucesso!',
+      pessoaAtualizada,
+    };
+  }
+
   @Delete('deletar/:id')
-  async deletePessoa(@Param('id', ParseIntPipe) id: number) {
-    return this.pessoaService.deletePessoa(id);
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const pessoaDeletada = await this.pessoaService.delete(id);
+    return {
+      message: 'Pessoa deletada com sucesso!',
+      pessoaDeletada,
+    };
   }
 }

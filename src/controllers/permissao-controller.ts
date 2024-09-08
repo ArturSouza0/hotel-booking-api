@@ -9,46 +9,54 @@ import {
   Put,
 } from '@nestjs/common';
 import { PermissaoBody } from 'src/dtos/criar-permissao';
-import { PermissaoRepository } from 'src/repositories/permissao-repository';
+import { PermissaoService } from 'src/services/permissao.service';
 
 @Controller('permissao')
 export class PermissaoController {
-  constructor(private permissaoRepository: PermissaoRepository) {}
-
-  @Get('listar')
-  async getAllPermissoes() {
-    return this.permissaoRepository.findAll();
-  }
+  constructor(private permissaoService: PermissaoService) {}
 
   @Get('listar/:id')
-  async getPermissapById(@Param('id', ParseIntPipe) id: number) {
-    const permissao = await this.permissaoRepository.findById(id);
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    const permissao = await this.permissaoService.findById(id);
     if (!permissao) {
       throw new Error('Permissão não encontrada');
     }
     return permissao;
   }
 
+  @Get('listar')
+  async findAll() {
+    return await this.permissaoService.findAll();
+  }
+
   @Post('cadastrar')
-  async postPermissao(@Body() body: PermissaoBody) {
-    const { descricao } = body;
-    await this.permissaoRepository.create(descricao);
-    return { message: 'Permissão cadastrada com sucesso!' };
+  async create(@Body() body: PermissaoBody) {
+    const permissaoCriada = await this.permissaoService.create(body);
+
+    return {
+      message: 'Permissão cadastrada com sucesso!',
+      permissao_criado: permissaoCriada,
+    };
   }
 
   @Put('atualizar/:id')
-  async putPermissao(
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: PermissaoBody,
+    @Body() body: Partial<PermissaoBody>,
   ) {
-    const { descricao } = body;
-    await this.permissaoRepository.update(id, descricao);
-    return { message: 'Permissão atualizada com sucesso!' };
+    const permissaoAtualizado = await this.permissaoService.update(id, body);
+    return {
+      message: 'Permissão atualizada com sucesso!',
+      permissao_atualizado: permissaoAtualizado,
+    };
   }
 
   @Delete('deletar/:id')
-  async deletePermissao(@Param('id', ParseIntPipe) id: number) {
-    await this.permissaoRepository.delete(id);
-    return { message: 'Permissão deletada com sucesso!' };
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const permissaoDeletada = await this.permissaoService.delete(id);
+    return {
+      message: 'Permissão deletada com sucesso!',
+      permissaoDeletada,
+    };
   }
 }
