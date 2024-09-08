@@ -11,8 +11,12 @@ import { StatusRepository } from './repositories/status-repository';
 import { PrismaStatusRepository } from './repositories/prisma/prisma-status-repository';
 import { StatusController } from './controllers/status-controlller';
 import { PermissaoRepository } from './repositories/permissao-repository';
-import { PrismaPermissaoRepository } from './repositories/prisma-permissao-repository';
 import { PermissaoController } from './controllers/permissao-controller';
+import { PrismaPermissaoRepository } from './repositories/prisma/prisma-permissao-repository';
+import { PessoaController } from './controllers/pessoa-controller';
+import { PessoaRepository } from './repositories/pessoa-repository';
+import { PrismaPessoaRepository } from './repositories/prisma/prisma-pessoa-repository';
+import { PessoaService } from './services/pessoa.service';
 
 @Module({
   imports: [],
@@ -22,6 +26,7 @@ import { PermissaoController } from './controllers/permissao-controller';
     TipoQuartoController,
     StatusController,
     PermissaoController,
+    PessoaController,
   ],
   providers: [
     PrismaService,
@@ -38,6 +43,11 @@ import { PermissaoController } from './controllers/permissao-controller';
       provide: PermissaoRepository,
       useClass: PrismaPermissaoRepository,
     },
+    {
+      provide: PessoaRepository,
+      useClass: PrismaPessoaRepository,
+    },
+    PessoaService,
   ],
 })
 export class AppModule {}

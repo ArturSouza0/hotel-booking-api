@@ -54,7 +54,7 @@ model pessoa {
   email                  String             @unique(map: "UQ__pessoa__AB6E61642B83EF8A") @db.NVarChar(255)
   senha                  String             @db.NVarChar(255)
   cpf                    String             @unique(map: "UQ__pessoa__D836E71F3D216C35") @db.NVarChar(11)
-  identidade             String?            @unique(map: "UQ__pessoa__D2CB21E3F027E52C") @db.NVarChar(10)
+  identidade             String?            @db.NVarChar(10)
   numero_contato         String             @db.NVarChar(20)
   endereco               String?            @db.NVarChar(255)
   cidade                 String?            @db.NVarChar(255)
