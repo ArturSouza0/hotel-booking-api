@@ -1,4 +1,9 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class PermissaoBody {
-    id: number;
-    descricao: string;
+  id: number;
+  @IsNotEmpty({
+    message: 'A descrição da permissão é obrigatória!',
+  })
+  descricao: string;
 }

@@ -10,10 +10,19 @@ import { TipoQuartoController } from './controllers/tipo-quarto-controller';
 import { StatusRepository } from './repositories/status-repository';
 import { PrismaStatusRepository } from './repositories/prisma/prisma-status-repository';
 import { StatusController } from './controllers/status-controlller';
+import { PermissaoRepository } from './repositories/permissao-repository';
+import { PrismaPermissaoRepository } from './repositories/prisma-permissao-repository';
+import { PermissaoController } from './controllers/permissao-controller';
 
 @Module({
   imports: [],
-  controllers: [AppController, CargoController, TipoQuartoController, StatusController],
+  controllers: [
+    AppController,
+    CargoController,
+    TipoQuartoController,
+    StatusController,
+    PermissaoController,
+  ],
   providers: [
     PrismaService,
     {
@@ -22,8 +31,13 @@ import { StatusController } from './controllers/status-controlller';
     },
     { provide: TipoQuartoRepository, useClass: PrismaTipoQuartoRepository },
     {
-      provide: StatusRepository, useClass: PrismaStatusRepository
+      provide: StatusRepository,
+      useClass: PrismaStatusRepository,
+    },
+    {
+      provide: PermissaoRepository,
+      useClass: PrismaPermissaoRepository,
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

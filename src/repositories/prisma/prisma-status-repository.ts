@@ -1,7 +1,7 @@
-import { PrismaService } from "src/database/prisma.service";
-import { StatusRepository } from "../status-repository";
-import { StatusBody } from "src/dtos/criar-status";
-import { Injectable } from "@nestjs/common";
+import { PrismaService } from 'src/database/prisma.service';
+import { StatusRepository } from '../status-repository';
+import { StatusBody } from 'src/dtos/criar-status';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PrismaStatusRepository implements StatusRepository {
