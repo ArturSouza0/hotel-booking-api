@@ -7,22 +7,22 @@ export class StatusService {
   constructor(private readonly statusRepository: StatusRepository) {}
 
   async create(body: StatusBody) {
-    return this.statusRepository.create(body);
+    return await this.statusRepository.create(body);
   }
 
   async findById(id: number) {
-    return this.statusRepository.findById(id);
+    return await this.statusRepository.findById(id);
   }
 
   async findAll() {
-    return this.statusRepository.findAll();
+    return await this.statusRepository.findAll();
   }
 
   async update(id: number, body: Partial<StatusBody>) {
-    return this.statusRepository.update(id, body);
+    return await this.statusRepository.update(id, body);
   }
 
   async delete(id: number) {
-    return this.statusRepository.delete(id);
+    return await this.statusRepository.delete(id);
   }
 }

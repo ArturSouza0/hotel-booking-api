@@ -7,22 +7,22 @@ export class TipoQuartoService {
   constructor(private readonly tipoQuartoRepository: TipoQuartoRepository) {}
 
   async create(body: TipoQuartoBody) {
-    return this.tipoQuartoRepository.create(body);
+    return await this.tipoQuartoRepository.create(body);
   }
 
   async findById(id: number) {
-    return this.tipoQuartoRepository.findById(id);
+    return await this.tipoQuartoRepository.findById(id);
   }
 
   async findAll() {
-    return this.tipoQuartoRepository.findAll();
+    return await this.tipoQuartoRepository.findAll();
   }
 
   async update(id: number, body: Partial<TipoQuartoBody>) {
-    return this.tipoQuartoRepository.update(id, body);
+    return await this.tipoQuartoRepository.update(id, body);
   }
 
   async delete(id: number) {
-    return this.tipoQuartoRepository.delete(id);
+    return await this.tipoQuartoRepository.delete(id);
   }
 }

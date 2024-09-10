@@ -7,22 +7,22 @@ export class PermissaoService {
   constructor(private readonly permissaoRepository: PermissaoRepository) {}
 
   async create(body: PermissaoBody) {
-    return this.permissaoRepository.create(body);
+    return await this.permissaoRepository.create(body);
   }
 
   async findById(id: number) {
-    return this.permissaoRepository.findById(id);
+    return await this.permissaoRepository.findById(id);
   }
 
   async findAll() {
-    return this.permissaoRepository.findAll();
+    return await this.permissaoRepository.findAll();
   }
 
   async update(id: number, body: Partial<PermissaoBody>) {
-    return this.permissaoRepository.update(id, body);
+    return await this.permissaoRepository.update(id, body);
   }
 
   async delete(id: number) {
-    return this.permissaoRepository.delete(id);
+    return await this.permissaoRepository.delete(id);
   }
 }

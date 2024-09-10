@@ -7,22 +7,22 @@ export class CargoService {
   constructor(private readonly cargoRepository: CargoRepository) {}
 
   async create(body: CargoBody) {
-    return this.cargoRepository.create(body);
+    return await this.cargoRepository.create(body);
   }
 
   async findById(id: number) {
-    return this.cargoRepository.findById(id);
+    return await this.cargoRepository.findById(id);
   }
 
   async findAll() {
-    return this.cargoRepository.findAll();
+    return await this.cargoRepository.findAll();
   }
 
   async update(id: number, body: Partial<CargoBody>) {
-    return this.cargoRepository.update(id, body);
+    return await this.cargoRepository.update(id, body);
   }
 
   async delete(id: number) {
-    return this.cargoRepository.delete(id);
+    return await this.cargoRepository.delete(id);
   }
 }
