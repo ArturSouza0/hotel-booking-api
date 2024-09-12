@@ -1,3 +1,4 @@
+import { PrismaClienteRepository } from './repositories/prisma/prisma-cliente-repository';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { PrismaService } from './database/prisma.service';
@@ -21,6 +22,9 @@ import { TipoQuartoService } from './services/tipo-quarto.service';
 import { StatusService } from './services/status.service';
 import { PermissaoService } from './services/permissao.service';
 import { CargoService } from './services/cargo.service';
+import { ClienteRepository } from './repositories/cliente-repository';
+import { ClienteService } from './services/cliente.service';
+import { ClienteController } from './controllers/cliente-controller';
 
 @Module({
   imports: [],
@@ -31,6 +35,7 @@ import { CargoService } from './services/cargo.service';
     StatusController,
     PermissaoController,
     PessoaController,
+    ClienteController,
   ],
   providers: [
     PrismaService,
@@ -51,11 +56,16 @@ import { CargoService } from './services/cargo.service';
       provide: PessoaRepository,
       useClass: PrismaPessoaRepository,
     },
+    {
+      provide: ClienteRepository,
+      useClass: PrismaClienteRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
     PermissaoService,
     CargoService,
+    ClienteService,
   ],
 })
-export class AppModule {}
+export class AppModule { }

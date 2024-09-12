@@ -30,17 +30,18 @@ export class ClienteController {
         }
     }
 
-    // @Put('atualizar/:id')
-    // async update(
-    //   @Param('id', ParseIntPipe) id: number,
-    //   @Body() body: Partial<ClienteBody>,
-    // ) {
-    //   const clienteAtualizado = await this.clienteService.update(id, body);
-    //   return {
-    //     message: 'Cliente atualizado com sucesso!',
-    //     cliente_atualizado: clienteAtualizado,
-    //   };
-    // }
+    @Put('atualizar/:id')
+    async update(
+      @Param('id', ParseIntPipe) id: number,
+      @Body() body: Partial<ClienteBody>,
+    ) {
+      const clienteAtualizado = await this.clienteService.update(id, body);
+      return {
+        message: 'Cliente atualizado com sucesso!',
+        cliente_atualizado: clienteAtualizado,
+      };
+    }
+    
 
     @Delete('deletar/:id')
     async delete(@Param('id', ParseIntPipe) id: number) {
