@@ -25,6 +25,10 @@ import { CargoService } from './services/cargo.service';
 import { ClienteRepository } from './repositories/cliente-repository';
 import { ClienteService } from './services/cliente.service';
 import { ClienteController } from './controllers/cliente-controller';
+import { FuncionarioController } from './controllers/funcionario-controller';
+import { FuncionarioRepository } from './repositories/funcionario-repository';
+import { PrismaFuncionarioRepository } from './repositories/prisma/prisma-funcionario-repository';
+import { FuncionarioService } from './services/funcionario.service';
 
 @Module({
   imports: [],
@@ -36,6 +40,7 @@ import { ClienteController } from './controllers/cliente-controller';
     PermissaoController,
     PessoaController,
     ClienteController,
+    FuncionarioController,
   ],
   providers: [
     PrismaService,
@@ -60,12 +65,17 @@ import { ClienteController } from './controllers/cliente-controller';
       provide: ClienteRepository,
       useClass: PrismaClienteRepository,
     },
+    {
+      provide: FuncionarioRepository,
+      useClass: PrismaFuncionarioRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
     PermissaoService,
     CargoService,
     ClienteService,
+    FuncionarioService,
   ],
 })
-export class AppModule { }
+export class AppModule {}
