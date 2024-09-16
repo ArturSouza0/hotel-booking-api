@@ -29,6 +29,10 @@ import { FuncionarioController } from './controllers/funcionario-controller';
 import { FuncionarioRepository } from './repositories/funcionario-repository';
 import { PrismaFuncionarioRepository } from './repositories/prisma/prisma-funcionario-repository';
 import { FuncionarioService } from './services/funcionario.service';
+import { QuartoService } from './services/quarto.service';
+import { QuartoRepository } from './repositories/quarto-repository';
+import { PrismaQuartoRepository } from './repositories/prisma/prisma-quarto-repository';
+import { QuartoController } from './controllers/quarto.controlller';
 
 @Module({
   imports: [],
@@ -41,6 +45,7 @@ import { FuncionarioService } from './services/funcionario.service';
     PessoaController,
     ClienteController,
     FuncionarioController,
+    QuartoController,
   ],
   providers: [
     PrismaService,
@@ -69,6 +74,10 @@ import { FuncionarioService } from './services/funcionario.service';
       provide: FuncionarioRepository,
       useClass: PrismaFuncionarioRepository,
     },
+    {
+      provide: QuartoRepository,
+      useClass: PrismaQuartoRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
@@ -76,6 +85,7 @@ import { FuncionarioService } from './services/funcionario.service';
     CargoService,
     ClienteService,
     FuncionarioService,
+    QuartoService,
   ],
 })
 export class AppModule {}
