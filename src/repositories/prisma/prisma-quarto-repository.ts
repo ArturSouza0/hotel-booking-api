@@ -6,7 +6,7 @@ import { Quarto } from 'src/entities/quarto-entity';
 
 @Injectable()
 export class PrismaQuartoRepository implements QuartoRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: QuartoBody): Promise<Quarto> {
     return await this.prisma.quarto.create({

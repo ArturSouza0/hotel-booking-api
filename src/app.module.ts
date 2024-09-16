@@ -33,6 +33,10 @@ import { QuartoService } from './services/quarto.service';
 import { QuartoRepository } from './repositories/quarto-repository';
 import { PrismaQuartoRepository } from './repositories/prisma/prisma-quarto-repository';
 import { QuartoController } from './controllers/quarto.controlller';
+import { PlanoController } from './controllers/plano-controller';
+import { PlanoRepository } from './repositories/plano-repository';
+import { PrismaPlanoRepository } from './repositories/prisma/prisma-plano-repository';
+import { PlanoService } from './services/plano.service';
 
 @Module({
   imports: [],
@@ -46,6 +50,7 @@ import { QuartoController } from './controllers/quarto.controlller';
     ClienteController,
     FuncionarioController,
     QuartoController,
+    PlanoController,
   ],
   providers: [
     PrismaService,
@@ -78,6 +83,10 @@ import { QuartoController } from './controllers/quarto.controlller';
       provide: QuartoRepository,
       useClass: PrismaQuartoRepository,
     },
+    {
+      provide: PlanoRepository,
+      useClass: PrismaPlanoRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
@@ -86,6 +95,7 @@ import { QuartoController } from './controllers/quarto.controlller';
     ClienteService,
     FuncionarioService,
     QuartoService,
+    PlanoService,
   ],
 })
-export class AppModule {}
+export class AppModule { }
