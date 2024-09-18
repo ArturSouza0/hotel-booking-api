@@ -1,10 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { TipoPagamentoBody } from "src/dtos/criar-tipo-pagamento";
-import { TipoPagamentoRepository } from "src/repositories/tipo-pagamento-repository";
+import { Injectable } from '@nestjs/common';
+import { TipoPagamentoBody } from 'src/dtos/criar-tipo-pagamento';
+import { TipoPagamentoRepository } from 'src/repositories/tipo-pagamento-repository';
 
 @Injectable()
 export class TipoPagamentoService {
-  constructor(private readonly tipoPagamentoRepository: TipoPagamentoRepository) {}
+  constructor(
+    private readonly tipoPagamentoRepository: TipoPagamentoRepository,
+  ) {}
 
   async create(body: TipoPagamentoBody) {
     return await this.tipoPagamentoRepository.create(body);

@@ -11,7 +11,7 @@ import {
 import { PlanoServicoBody } from 'src/dtos/criar-plano-servico';
 import { PlanoServicoService } from 'src/services/plano-servico.service';
 
-@Controller('servico')
+@Controller('planoservico')
 export class PlanoServicoController {
   constructor(private readonly planoServicoService: PlanoServicoService) {}
 

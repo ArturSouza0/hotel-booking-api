@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
-import { StatusBody } from "src/dtos/criar-status";
-import { TipoPagamentoService } from "src/services/tipo-pagamento.service";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { TipoPagamentoBody } from 'src/dtos/criar-tipo-pagamento';
+import { TipoPagamentoService } from 'src/services/tipo-pagamento.service';
 
 @Controller('tipopagamento')
 export class TipoPagamentoController {
@@ -21,7 +30,7 @@ export class TipoPagamentoController {
   }
 
   @Post('cadastrar')
-  async create(@Body() body: StatusBody) {
+  async create(@Body() body: TipoPagamentoBody) {
     const tipoPagamentoCriado = await this.tipoPagamentoService.create(body);
 
     return {
@@ -33,12 +42,15 @@ export class TipoPagamentoController {
   @Put('atualizar/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: Partial<StatusBody>,
+    @Body() body: Partial<TipoPagamentoBody>,
   ) {
-    const tipoPagamentiAtualizado = await this.tipoPagamentoService.update(id, body);
+    const tipoPagamentoAtualizado = await this.tipoPagamentoService.update(
+      id,
+      body,
+    );
     return {
       message: 'Tipo pagamento atualizado com sucesso!',
-      tipoPagamenti_atualizado: tipoPagamentiAtualizado,
+      tipoPagamento_atualizado: tipoPagamentoAtualizado,
     };
   }
 
