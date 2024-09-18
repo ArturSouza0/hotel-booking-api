@@ -8,16 +8,16 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ServicoBody } from 'src/dtos/criar-servico';
-import { ServicoService } from './../services/servico.service';
+import { PlanoServicoBody } from 'src/dtos/criar-plano-servico';
+import { PlanoServicoService } from 'src/services/plano-servico.service';
 
 @Controller('servico')
-export class ServicoController {
-  constructor(private readonly servivoService: ServicoService) {}
+export class PlanoServicoController {
+  constructor(private readonly planoServicoService: PlanoServicoService) {}
 
   @Get('listar/:id')
   async findById(@Param('id', ParseIntPipe) id: number) {
-    const servico = await this.servivoService.findById(id);
+    const servico = await this.planoServicoService.findById(id);
     if (!servico) {
       throw new Error('Servico não encotrado');
     }
@@ -26,12 +26,12 @@ export class ServicoController {
 
   @Get('listar')
   async findAll() {
-    return await this.servivoService.findAll();
+    return await this.planoServicoService.findAll();
   }
 
   @Post('cadastrar')
-  async create(@Body() body: ServicoBody) {
-    const servicoCriado = await this.servivoService.create(body);
+  async create(@Body() body: PlanoServicoBody) {
+    const servicoCriado = await this.planoServicoService.create(body);
 
     return {
       message: 'Servico cadastrado com sucesso!',
@@ -42,9 +42,9 @@ export class ServicoController {
   @Put('atualizar/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: Partial<ServicoBody>,
+    @Body() body: Partial<PlanoServicoBody>,
   ) {
-    const servicoAtualizado = await this.servivoService.update(id, body);
+    const servicoAtualizado = await this.planoServicoService.update(id, body);
     return {
       message: 'Servico atualizado com sucesso!',
       servico_atualizado: servicoAtualizado,
@@ -53,7 +53,7 @@ export class ServicoController {
 
   @Delete('deletar/:id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    const servicoDeletado = await this.servivoService.delete(id);
+    const servicoDeletado = await this.planoServicoService.delete(id);
     return {
       message: 'Servico deletado com sucesso!',
       servicoDeletado,

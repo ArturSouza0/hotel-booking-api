@@ -48,6 +48,10 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
 import { PessoaPermissaoService } from './services/pessoa-permissao.service';
 import { PessoaPermissaoRepository } from './repositories/pessoa-permissao-repository';
 import { PessoaPermissaoController } from './controllers/pessoa-permissao-controller';
+import { PlanoServicoController } from './controllers/plano-servico-controller';
+import { PlanoServicoService } from './services/plano-servico.service';
+import { PlanoServicoRepository } from './repositories/plano-servico-repository';
+import { PrismaPlanoServicoRepository } from './repositories/prisma/prisma-plano-servico-repository';
 
 @Module({
   imports: [],
@@ -65,6 +69,7 @@ import { PessoaPermissaoController } from './controllers/pessoa-permissao-contro
     ServicoController,
     TipoPagamentoController,
     PessoaPermissaoController,
+    PlanoServicoController,
   ],
   providers: [
     PrismaService,
@@ -74,7 +79,7 @@ import { PessoaPermissaoController } from './controllers/pessoa-permissao-contro
     },
     {
       provide: TipoQuartoRepository,
-      useClass: PrismaTipoQuartoRepository
+      useClass: PrismaTipoQuartoRepository,
     },
     {
       provide: StatusRepository,
@@ -116,6 +121,10 @@ import { PessoaPermissaoController } from './controllers/pessoa-permissao-contro
       provide: PessoaPermissaoRepository,
       useClass: PrismaPermissaoRepository,
     },
+    {
+      provide: PlanoServicoRepository,
+      useClass: PrismaPlanoServicoRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
@@ -128,6 +137,7 @@ import { PessoaPermissaoController } from './controllers/pessoa-permissao-contro
     ServicoService,
     TipoPagamentoService,
     PessoaPermissaoService,
+    PlanoServicoService,
   ],
 })
-export class AppModule { }
+export class AppModule {}
