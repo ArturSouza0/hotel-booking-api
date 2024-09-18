@@ -45,6 +45,9 @@ import { TipoPagamentoController } from './controllers/tipo-pagamento-controller
 import { TipoPagamentoRepository } from './repositories/tipo-pagamento-repository';
 import { PrismaTipoPagamentoRepository } from './repositories/prisma/prisma-tipo-pagamento-repository';
 import { TipoPagamentoService } from './services/tipo-pagamento.service';
+import { PessoaPermissaoService } from './services/pessoa-permissao.service';
+import { PessoaPermissaoRepository } from './repositories/pessoa-permissao-repository';
+import { PessoaPermissaoController } from './controllers/pessoa-permissao-controller';
 
 @Module({
   imports: [],
@@ -61,6 +64,7 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
     PlanoController,
     ServicoController,
     TipoPagamentoController,
+    PessoaPermissaoController,
   ],
   providers: [
     PrismaService,
@@ -68,8 +72,10 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
       provide: CargoRepository,
       useClass: PrismaCargoRepository,
     },
-    { provide: TipoQuartoRepository,
-      useClass: PrismaTipoQuartoRepository },
+    {
+      provide: TipoQuartoRepository,
+      useClass: PrismaTipoQuartoRepository
+    },
     {
       provide: StatusRepository,
       useClass: PrismaStatusRepository,
@@ -106,6 +112,10 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
       provide: TipoPagamentoRepository,
       useClass: PrismaTipoPagamentoRepository,
     },
+    {
+      provide: PessoaPermissaoRepository,
+      useClass: PrismaPermissaoRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
@@ -117,6 +127,7 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
     PlanoService,
     ServicoService,
     TipoPagamentoService,
+    PessoaPermissaoService,
   ],
 })
 export class AppModule { }
