@@ -42,7 +42,7 @@ export class PessoaController {
   @Put('atualizar/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: PessoaBody,
+    @Body() body: Partial<PessoaBody>,
   ) {
     const pessoaAtualizada = await this.pessoaService.update(id, body);
     return {

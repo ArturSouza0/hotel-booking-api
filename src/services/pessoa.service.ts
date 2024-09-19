@@ -10,7 +10,7 @@ export class PessoaService {
     return await this.pessoaRepository.create(body);
   }
 
-  async update(id: number, body: PessoaBody) {
+  async update(id: number, body: Partial<PessoaBody>) {
     return await this.pessoaRepository.update(id, body);
   }
 
