@@ -56,6 +56,10 @@ import { PagamentoService } from './services/pagamento.service';
 import { PagamentoRepository } from './repositories/pagamento-repository';
 import { PrismaPagamentoRepository } from './repositories/prisma/prisma-pagamento-repository';
 import { PagamentoController } from './controllers/pagamento-controller';
+import { ReservaController } from './controllers/reserva-controller';
+import { ReservaService } from './services/reserva.service';
+import { ReservaRepository } from './repositories/reserva-repository';
+import { PrismaReservaRepository } from './repositories/prisma/prisma-reserva-repository';
 
 @Module({
   imports: [],
@@ -75,6 +79,7 @@ import { PagamentoController } from './controllers/pagamento-controller';
     PessoaPermissaoController,
     PlanoServicoController,
     PagamentoController,
+    ReservaController,
   ],
   providers: [
     PrismaService,
@@ -134,6 +139,10 @@ import { PagamentoController } from './controllers/pagamento-controller';
       provide: PagamentoRepository,
       useClass: PrismaPagamentoRepository,
     },
+    {
+      provide: ReservaRepository,
+      useClass: PrismaReservaRepository,
+    },
     PessoaService,
     TipoQuartoService,
     StatusService,
@@ -148,6 +157,7 @@ import { PagamentoController } from './controllers/pagamento-controller';
     PessoaPermissaoService,
     PlanoServicoService,
     PagamentoService,
+    ReservaService,
   ],
 })
 export class AppModule {}
