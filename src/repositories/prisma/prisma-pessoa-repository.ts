@@ -4,10 +4,14 @@ import { Pessoa } from 'src/entities/pessoa-entity';
 import { PessoaRepository } from '../pessoa-repository';
 import { PessoaBody } from 'src/dtos/criar-pessoa';
 import { DateUtils } from 'src/utils/date-utils';
+import { HashService } from 'src/services/hash/hash.service';
 
 @Injectable()
 export class PrismaPessoaRepository implements PessoaRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private hashService: HashService,
+  ) { }
 
   async create(data: PessoaBody): Promise<Pessoa> {
     const errorMessages: string[] = [];
@@ -50,9 +54,12 @@ export class PrismaPessoaRepository implements PessoaRepository {
       throw new Error(errorMessages.join(' '));
     }
 
+    const hashedSenha = await this.hashService.hashSenha(data.senha);
+
     return this.prisma.pessoa.create({
       data: {
         ...data,
+        senha: hashedSenha,
         ativo: true,
         data_nascimento: data.data_nascimento
           ? new Date(data.data_nascimento)
@@ -75,10 +82,14 @@ export class PrismaPessoaRepository implements PessoaRepository {
   }
 
   async update(id: number, data: Partial<PessoaBody>): Promise<Pessoa> {
+
+    const hashedSenha = await this.hashService.hashSenha(data.senha);
+
     return this.prisma.pessoa.update({
       where: { id },
       data: {
         ...data,
+        senha: hashedSenha,
         data_atualizacao: DateUtils.getCurrentDate(),
       },
     });

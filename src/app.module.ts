@@ -60,6 +60,7 @@ import { ReservaController } from './controllers/reserva-controller';
 import { ReservaService } from './services/reserva.service';
 import { ReservaRepository } from './repositories/reserva-repository';
 import { PrismaReservaRepository } from './repositories/prisma/prisma-reserva-repository';
+import { HashService } from './services/hash/hash.service';
 
 @Module({
   imports: [],
@@ -158,6 +159,7 @@ import { PrismaReservaRepository } from './repositories/prisma/prisma-reserva-re
     PlanoServicoService,
     PagamentoService,
     ReservaService,
+    HashService,
   ],
 })
 export class AppModule {}
