@@ -18,6 +18,10 @@ export class PessoaService {
     return await this.pessoaRepository.findById(id);
   }
 
+  async findByEmail(email: string) {
+    return await this.pessoaRepository.findByEmail(email);
+  }
+
   async findAll() {
     return await this.pessoaRepository.findAll();
   }

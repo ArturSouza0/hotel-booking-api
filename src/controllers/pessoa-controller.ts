@@ -24,6 +24,15 @@ export class PessoaController {
     return pessoa;
   }
 
+  @Get('listar/email/:email')
+  async findByEmail(@Param('email') email: string) {
+    const pessoa = await this.pessoaService.findByEmail(email);
+    if (!pessoa) {
+      return { message: 'Pessoa não encontrada!' };
+    }
+    return pessoa;
+  }
+
   @Get('listar')
   async findAll() {
     const pessoas = await this.pessoaService.findAll();

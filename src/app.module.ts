@@ -61,9 +61,10 @@ import { ReservaService } from './services/reserva.service';
 import { ReservaRepository } from './repositories/reserva-repository';
 import { PrismaReservaRepository } from './repositories/prisma/prisma-reserva-repository';
 import { HashService } from './services/hash/hash.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [],
+  imports: [AuthModule],
   controllers: [
     AppController,
     CargoController,

@@ -11,7 +11,7 @@ export class PrismaPessoaRepository implements PessoaRepository {
   constructor(
     private prisma: PrismaService,
     private hashService: HashService,
-  ) { }
+  ) {}
 
   async create(data: PessoaBody): Promise<Pessoa> {
     const errorMessages: string[] = [];
@@ -77,12 +77,18 @@ export class PrismaPessoaRepository implements PessoaRepository {
     return pessoa;
   }
 
+  async findByEmail(email: string): Promise<Pessoa | null> {
+    const pessoa = await this.prisma.pessoa.findUnique({
+      where: { email },
+    });
+    return pessoa;
+  }
+
   async findAll(): Promise<Pessoa[]> {
     return this.prisma.pessoa.findMany();
   }
 
   async update(id: number, data: Partial<PessoaBody>): Promise<Pessoa> {
-
     const hashedSenha = await this.hashService.hashSenha(data.senha);
 
     return this.prisma.pessoa.update({
