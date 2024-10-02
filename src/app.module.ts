@@ -1,5 +1,5 @@
 import { PrismaClienteRepository } from './repositories/prisma/prisma-cliente-repository';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { PrismaService } from './database/prisma.service';
 import { CargoRepository } from './repositories/cargo-repository';
@@ -14,10 +14,8 @@ import { StatusController } from './controllers/status-controlller';
 import { PermissaoRepository } from './repositories/permissao-repository';
 import { PermissaoController } from './controllers/permissao-controller';
 import { PrismaPermissaoRepository } from './repositories/prisma/prisma-permissao-repository';
-import { PessoaController } from './controllers/pessoa-controller';
 import { PessoaRepository } from './repositories/pessoa-repository';
 import { PrismaPessoaRepository } from './repositories/prisma/prisma-pessoa-repository';
-import { PessoaService } from './services/pessoa.service';
 import { TipoQuartoService } from './services/tipo-quarto.service';
 import { StatusService } from './services/status.service';
 import { PermissaoService } from './services/permissao.service';
@@ -62,9 +60,13 @@ import { ReservaRepository } from './repositories/reserva-repository';
 import { PrismaReservaRepository } from './repositories/prisma/prisma-reserva-repository';
 import { HashService } from './services/hash/hash.service';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { PessoaController } from './Pessoa/pessoa-controller';
+import { PessoaService } from './Pessoa/pessoa.service';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, forwardRef(() => AuthModule)],
   controllers: [
     AppController,
     CargoController,
@@ -144,6 +146,10 @@ import { AuthModule } from './auth/auth.module';
     {
       provide: ReservaRepository,
       useClass: PrismaReservaRepository,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
     PessoaService,
     TipoQuartoService,

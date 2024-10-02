@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 
 export class PessoaBody {
+  id?: number;
   @IsNotEmpty({
     message: 'O nome do usuário é obrigatório!',
   })

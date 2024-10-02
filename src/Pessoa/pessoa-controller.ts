@@ -8,8 +8,9 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
-import { PessoaService } from '../services/pessoa.service';
+
 import { PessoaBody } from 'src/dtos/criar-pessoa';
+import { PessoaService } from './pessoa.service';
 
 @Controller('pessoa')
 export class PessoaController {
