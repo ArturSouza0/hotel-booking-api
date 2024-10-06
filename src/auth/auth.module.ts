@@ -7,6 +7,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
 import { PessoaModule } from '../Pessoa/pessoa.module';
+import * as cookieParser from 'cookie-parser';
 
 @Module({
   imports: [
@@ -22,6 +23,8 @@ import { PessoaModule } from '../Pessoa/pessoa.module';
 })
 export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoginValidationMiddleware).forRoutes('login');
+    consumer
+      .apply(LoginValidationMiddleware, cookieParser())
+      .forRoutes('login');
   }
 }
