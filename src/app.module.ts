@@ -46,10 +46,6 @@ import { TipoPagamentoService } from './services/tipo-pagamento.service';
 import { PessoaPermissaoService } from './services/pessoa-permissao.service';
 import { PessoaPermissaoRepository } from './repositories/pessoa-permissao-repository';
 import { PessoaPermissaoController } from './controllers/pessoa-permissao-controller';
-import { PlanoServicoController } from './controllers/plano-servico-controller';
-import { PlanoServicoService } from './services/plano-servico.service';
-import { PlanoServicoRepository } from './repositories/plano-servico-repository';
-import { PrismaPlanoServicoRepository } from './repositories/prisma/prisma-plano-servico-repository';
 import { PagamentoService } from './services/pagamento.service';
 import { PagamentoRepository } from './repositories/pagamento-repository';
 import { PrismaPagamentoRepository } from './repositories/prisma/prisma-pagamento-repository';
@@ -81,7 +77,6 @@ import { PessoaService } from './Pessoa/pessoa.service';
     ServicoController,
     TipoPagamentoController,
     PessoaPermissaoController,
-    PlanoServicoController,
     PagamentoController,
     ReservaController,
   ],
@@ -136,10 +131,6 @@ import { PessoaService } from './Pessoa/pessoa.service';
       useClass: PrismaPermissaoRepository,
     },
     {
-      provide: PlanoServicoRepository,
-      useClass: PrismaPlanoServicoRepository,
-    },
-    {
       provide: PagamentoRepository,
       useClass: PrismaPagamentoRepository,
     },
@@ -163,7 +154,6 @@ import { PessoaService } from './Pessoa/pessoa.service';
     ServicoService,
     TipoPagamentoService,
     PessoaPermissaoService,
-    PlanoServicoService,
     PagamentoService,
     ReservaService,
     HashService,

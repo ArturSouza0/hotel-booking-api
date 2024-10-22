@@ -9,7 +9,7 @@ export class PrismaClienteRepository implements ClienteRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: ClienteBody): Promise<Cliente> {
-    return await this.prisma.clientes.create({
+    return await this.prisma.cliente.create({
       data: {
         ...data,
       },
@@ -17,25 +17,25 @@ export class PrismaClienteRepository implements ClienteRepository {
   }
 
   async findById(id: number): Promise<Cliente> {
-    const cliente = await this.prisma.clientes.findUnique({
+    const cliente = await this.prisma.cliente.findUnique({
       where: { id },
     });
     return cliente;
   }
 
   async findAll(): Promise<Cliente[]> {
-    return await this.prisma.clientes.findMany();
+    return await this.prisma.cliente.findMany();
   }
 
   async update(id: number, data: Partial<ClienteBody>): Promise<Cliente> {
-    return await this.prisma.clientes.update({
+    return await this.prisma.cliente.update({
       where: { id },
       data: { ...data },
     });
   }
 
   async delete(id: number): Promise<void> {
-    await this.prisma.clientes.delete({
+    await this.prisma.cliente.delete({
       where: { id },
     });
   }

@@ -9,7 +9,7 @@ export class PrismaFuncionarioRepository implements FuncionarioRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: FuncionarioBody): Promise<Funcionario> {
-    return await this.prisma.funcionarios.create({
+    return await this.prisma.funcionario.create({
       data: {
         ...data,
       },
@@ -17,28 +17,28 @@ export class PrismaFuncionarioRepository implements FuncionarioRepository {
   }
 
   async findById(id: number): Promise<Funcionario | null> {
-    const funcionario = await this.prisma.funcionarios.findUnique({
+    const funcionario = await this.prisma.funcionario.findUnique({
       where: { id },
     });
     return funcionario;
   }
 
   async findAll(): Promise<Funcionario[]> {
-    return await this.prisma.funcionarios.findMany();
+    return await this.prisma.funcionario.findMany();
   }
 
   async update(
     id: number,
     data: Partial<FuncionarioBody>,
   ): Promise<Funcionario> {
-    return await this.prisma.funcionarios.update({
+    return await this.prisma.funcionario.update({
       where: { id },
       data: { ...data },
     });
   }
 
   async delete(id: number): Promise<void> {
-    await this.prisma.funcionarios.delete({
+    await this.prisma.funcionario.delete({
       where: { id },
     });
   }

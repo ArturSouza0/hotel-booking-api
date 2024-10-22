@@ -6,13 +6,12 @@ export class Pessoa {
   senha: string;
   cpf: string;
   identidade?: string;
+  telefone?: string;
   numero_contato: string;
   endereco?: string;
   cidade?: string;
   pais?: string;
   comprovante_residencia?: string;
-  outros_documentos?: string;
-  permissao_id?: number;
   data_nascimento?: Date;
   genero?: string;
   nacionalidade?: string;

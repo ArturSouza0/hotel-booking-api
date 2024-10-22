@@ -9,32 +9,32 @@ export class PrismaPermissaoRepository implements PermissaoRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: PermissaoBody): Promise<Permissao> {
-    return await this.prisma.permissoes.create({
+    return await this.prisma.permissao.create({
       data: {
         ...data,
       },
     });
   }
   async findById(id: number): Promise<Permissao | null> {
-    const permissao = await this.prisma.permissoes.findUnique({
+    const permissao = await this.prisma.permissao.findUnique({
       where: { id },
     });
     return permissao;
   }
 
   async findAll(): Promise<Permissao[]> {
-    return await this.prisma.permissoes.findMany();
+    return await this.prisma.permissao.findMany();
   }
 
   async update(id: number, data: Partial<PermissaoBody>): Promise<Permissao> {
-    return await this.prisma.permissoes.update({
+    return await this.prisma.permissao.update({
       where: { id },
       data: { ...data },
     });
   }
 
   async delete(id: number): Promise<void> {
-    await this.prisma.permissoes.delete({
+    await this.prisma.permissao.delete({
       where: { id },
     });
   }

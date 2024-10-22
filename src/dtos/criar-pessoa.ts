@@ -11,6 +11,7 @@ import {
 
 export class PessoaBody {
   id?: number;
+
   @IsNotEmpty({
     message: 'O nome do usuário é obrigatório!',
   })
@@ -55,6 +56,13 @@ export class PessoaBody {
   @IsString()
   identidade?: string;
 
+  @IsOptional()
+  @IsString()
+  @Length(1, 20, {
+    message: 'O telefone deve ter entre 1 e 20 caracteres',
+  })
+  telefone?: string;
+
   @IsNotEmpty({
     message: 'O número de contato é obrigatório!',
   })
@@ -80,24 +88,21 @@ export class PessoaBody {
   comprovante_residencia?: string;
 
   @IsOptional()
-  @IsString()
-  outros_documentos?: string;
-
-  @IsNotEmpty({
-    message: 'A permissão do usuário é obrigatória!',
-  })
-  permissao_id: number;
-
-  @IsOptional()
   @IsDate({ message: 'A data de nascimento deve ser uma data válida' })
   data_nascimento?: Date;
 
   @IsOptional()
   @IsString()
+  @Length(1, 50, {
+    message: 'O gênero deve ter entre 1 e 50 caracteres',
+  })
   genero?: string;
 
   @IsOptional()
   @IsString()
+  @Length(1, 100, {
+    message: 'A nacionalidade deve ter entre 1 e 100 caracteres',
+  })
   nacionalidade?: string;
 
   @IsOptional()

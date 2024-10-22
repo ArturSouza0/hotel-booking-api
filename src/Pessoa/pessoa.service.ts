@@ -7,7 +7,23 @@ export class PessoaService {
   constructor(private readonly pessoaRepository: PessoaRepository) {}
 
   async create(body: PessoaBody) {
-    return await this.pessoaRepository.create(body);
+    const novaPessoa = await this.pessoaRepository.create(body);
+
+    await this.atribuirPermissao(novaPessoa.id);
+
+    return novaPessoa;
+  }
+
+  private async atribuirPermissao(pessoaId: number) {
+    const clientePermissao =
+      await this.pessoaRepository.findPermissaoByNome('cliente');
+
+    if (clientePermissao) {
+      await this.pessoaRepository.addPermissaoToPessoa(
+        pessoaId,
+        clientePermissao.id,
+      );
+    }
   }
 
   async update(id: number, body: Partial<PessoaBody>) {

@@ -1,40 +1,45 @@
-import { Injectable } from "@nestjs/common";
-import { PessoaPermissaoRepository } from "../pessoa-permissao-repository";
-import { PrismaService } from "src/database/prisma.service";
-import { PessoaPermissaoBody } from "src/dtos/criar-pessoa-permissao";
-import { PessoaPermissao } from "src/entities/pessoa-permissao-entity";
+import { Injectable } from '@nestjs/common';
+import { PessoaPermissaoRepository } from '../pessoa-permissao-repository';
+import { PrismaService } from 'src/database/prisma.service';
+import { PessoaPermissaoBody } from 'src/dtos/criar-pessoa-permissao';
+import { PessoaPermissao } from 'src/entities/pessoa-permissao-entity';
 
 @Injectable()
-export class PrismaPessoaPermissaoRepository implements PessoaPermissaoRepository {
-    constructor(private prisma: PrismaService) { }
+export class PrismaPessoaPermissaoRepository
+  implements PessoaPermissaoRepository
+{
+  constructor(private prisma: PrismaService) {}
 
-    async create(data: PessoaPermissaoBody): Promise<PessoaPermissao> {
-        return await this.prisma.pessoa_permissao.create({
-            data: { ...data },
-        });
-    }
+  findAll(): Promise<PessoaPermissao[]> {
+    return this.prisma.pessoaPermissao.findMany();
+  }
 
-    async findById(id: number): Promise<PessoaPermissao> {
-        const pessoaPermissao = await this.prisma.pessoa_permissao.findUnique({
-            where: { id }
-        });
-        return pessoaPermissao;
-    }
+  async create(data: PessoaPermissaoBody): Promise<PessoaPermissao> {
+    return await this.prisma.pessoaPermissao.create({
+      data: { ...data },
+    });
+  }
 
-    async findAll(): Promise<PessoaPermissao[]> {
-        return await this.prisma.pessoa_permissao.findMany();
-    }
+  async findById(id: number): Promise<PessoaPermissao> {
+    const pessoaPermissao = await this.prisma.pessoaPermissao.findUnique({
+      where: { id },
+    });
+    return pessoaPermissao;
+  }
 
-    async update(id: number, data: Partial<PessoaPermissaoBody>): Promise<PessoaPermissao> {
-        return await this.prisma.pessoa_permissao.update({
-            where: { id },
-            data: { ...data }
-        });
-    }
+  async update(
+    id: number,
+    data: Partial<PessoaPermissaoBody>,
+  ): Promise<PessoaPermissao> {
+    return await this.prisma.pessoaPermissao.update({
+      where: { id },
+      data: { ...data },
+    });
+  }
 
-    async delete(id: number): Promise<void> {
-        await this.prisma.pessoa_permissao.delete({
-            where: { id },
-        });
-    }
+  async delete(id: number): Promise<void> {
+    await this.prisma.pessoaPermissao.delete({
+      where: { id },
+    });
+  }
 }

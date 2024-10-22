@@ -14,46 +14,30 @@ export class PrismaPessoaRepository implements PessoaRepository {
   ) {}
 
   async create(data: PessoaBody): Promise<Pessoa> {
-    const errorMessages: string[] = [];
+    // Verificações de existência
+    const existingRecords = await Promise.all([
+      this.prisma.pessoa.findFirst({ where: { email: data.email } }),
+      this.prisma.pessoa.findFirst({ where: { cpf: data.cpf } }),
+      data.identidade
+        ? this.prisma.pessoa.findFirst({
+            where: { identidade: data.identidade },
+          })
+        : null,
+    ]);
 
-    const emailExists = await this.prisma.pessoa.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
-
-    if (emailExists) {
-      errorMessages.push(`O email ${data.email} já está registrado.`);
-    }
-
-    const cpfExists = await this.prisma.pessoa.findFirst({
-      where: {
-        cpf: data.cpf,
-      },
-    });
-
-    if (cpfExists) {
-      errorMessages.push(`O CPF ${data.cpf} já está registrado.`);
-    }
-
-    if (data.identidade) {
-      const identidadeExists = await this.prisma.pessoa.findFirst({
-        where: {
-          identidade: data.identidade,
-        },
-      });
-
-      if (identidadeExists) {
-        errorMessages.push(
-          `A identidade ${data.identidade} já está registrada.`,
-        );
-      }
-    }
+    const errorMessages = [
+      existingRecords[0] ? `O email ${data.email} já está registrado.` : null,
+      existingRecords[1] ? `O CPF ${data.cpf} já está registrado.` : null,
+      existingRecords[2]
+        ? `A identidade ${data.identidade} já está registrada.`
+        : null,
+    ].filter(Boolean); // Filtra mensagens não nulas
 
     if (errorMessages.length > 0) {
       throw new Error(errorMessages.join(' '));
     }
 
+    // Gera a senha hash e cria a entrada no banco de dados
     const hashedSenha = await this.hashService.hashSenha(data.senha);
 
     return this.prisma.pessoa.create({
@@ -66,6 +50,21 @@ export class PrismaPessoaRepository implements PessoaRepository {
           : null,
         data_criacao: DateUtils.getCurrentDate(),
         data_atualizacao: null,
+      },
+    });
+  }
+
+  async findPermissaoByNome(descricao: string) {
+    return await this.prisma.permissao.findFirst({
+      where: { descricao },
+    });
+  }
+
+  async addPermissaoToPessoa(pessoaId: number, permissaoId: number) {
+    return await this.prisma.pessoaPermissao.create({
+      data: {
+        pessoa_id: pessoaId,
+        permissao_id: permissaoId,
       },
     });
   }
