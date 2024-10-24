@@ -43,9 +43,6 @@ import { TipoPagamentoController } from './controllers/tipo-pagamento-controller
 import { TipoPagamentoRepository } from './repositories/tipo-pagamento-repository';
 import { PrismaTipoPagamentoRepository } from './repositories/prisma/prisma-tipo-pagamento-repository';
 import { TipoPagamentoService } from './services/tipo-pagamento.service';
-import { PessoaPermissaoService } from './services/pessoa-permissao.service';
-import { PessoaPermissaoRepository } from './repositories/pessoa-permissao-repository';
-import { PessoaPermissaoController } from './controllers/pessoa-permissao-controller';
 import { PagamentoService } from './services/pagamento.service';
 import { PagamentoRepository } from './repositories/pagamento-repository';
 import { PrismaPagamentoRepository } from './repositories/prisma/prisma-pagamento-repository';
@@ -60,6 +57,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { PessoaController } from './Pessoa/pessoa-controller';
 import { PessoaService } from './Pessoa/pessoa.service';
+import { PessoaPermissaoService } from './services/pessoa-permissao.service';
+import { PessoaPermissaoRepository } from './repositories/pessoa-permissao-repository';
+import { PrismaPessoaPermissaoRepository } from './repositories/prisma/prisma-pessoa-permissao-respository';
+import { PessoaPermissaoController } from './controllers/pessoa-permissao-controller';
 
 @Module({
   imports: [AuthModule, forwardRef(() => AuthModule)],
@@ -76,9 +77,9 @@ import { PessoaService } from './Pessoa/pessoa.service';
     PlanoController,
     ServicoController,
     TipoPagamentoController,
-    PessoaPermissaoController,
     PagamentoController,
     ReservaController,
+    PessoaPermissaoController,
   ],
   providers: [
     PrismaService,
@@ -127,16 +128,16 @@ import { PessoaService } from './Pessoa/pessoa.service';
       useClass: PrismaTipoPagamentoRepository,
     },
     {
-      provide: PessoaPermissaoRepository,
-      useClass: PrismaPermissaoRepository,
-    },
-    {
       provide: PagamentoRepository,
       useClass: PrismaPagamentoRepository,
     },
     {
       provide: ReservaRepository,
       useClass: PrismaReservaRepository,
+    },
+    {
+      provide: PessoaPermissaoRepository,
+      useClass: PrismaPessoaPermissaoRepository,
     },
     {
       provide: APP_GUARD,
@@ -153,9 +154,9 @@ import { PessoaService } from './Pessoa/pessoa.service';
     PlanoService,
     ServicoService,
     TipoPagamentoService,
-    PessoaPermissaoService,
     PagamentoService,
     ReservaService,
+    PessoaPermissaoService,
     HashService,
   ],
 })

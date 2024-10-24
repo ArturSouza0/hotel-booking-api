@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { PessoaPermissaoRepository } from '../pessoa-permissao-repository';
-import { PrismaService } from 'src/database/prisma.service';
 import { PessoaPermissaoBody } from 'src/dtos/criar-pessoa-permissao';
+import { PessoaPermissaoRepository } from '../pessoa-permissao-repository';
 import { PessoaPermissao } from 'src/entities/pessoa-permissao-entity';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class PrismaPessoaPermissaoRepository
@@ -10,17 +10,11 @@ export class PrismaPessoaPermissaoRepository
 {
   constructor(private prisma: PrismaService) {}
 
-  findAll(): Promise<PessoaPermissao[]> {
-    return this.prisma.pessoaPermissao.findMany();
+  async findAll(): Promise<PessoaPermissaoBody[]> {
+    return await this.prisma.pessoaPermissao.findMany();
   }
 
-  async create(data: PessoaPermissaoBody): Promise<PessoaPermissao> {
-    return await this.prisma.pessoaPermissao.create({
-      data: { ...data },
-    });
-  }
-
-  async findById(id: number): Promise<PessoaPermissao> {
+  async findById(id: number): Promise<PessoaPermissao | null> {
     const pessoaPermissao = await this.prisma.pessoaPermissao.findUnique({
       where: { id },
     });
@@ -40,6 +34,14 @@ export class PrismaPessoaPermissaoRepository
   async delete(id: number): Promise<void> {
     await this.prisma.pessoaPermissao.delete({
       where: { id },
+    });
+  }
+
+  async create(data: PessoaPermissaoBody): Promise<PessoaPermissao> {
+    return await this.prisma.pessoaPermissao.create({
+      data: {
+        ...data,
+      },
     });
   }
 }
