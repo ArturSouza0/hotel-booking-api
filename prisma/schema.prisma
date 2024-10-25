@@ -7,133 +7,104 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cargo {
-  id          Int           @id(map: "PK__Cargo__3213E83F77362566") @default(autoincrement())
-  descricao   String        @db.NVarChar(255)
-  Funcionario Funcionario[]
-}
-
-model Cliente {
-  id          Int       @id(map: "PK__Cliente__3213E83F8DD5AA59") @default(autoincrement())
-  pessoa_id   Int?
-  fidelidade  String?   @db.NVarChar(50)
-  observacoes String?   @db.NVarChar(255)
-  Pessoa      Pessoa?   @relation(fields: [pessoa_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Cliente__pessoa___3E52440B")
-  Reserva     Reserva[]
-}
-
-model Funcionario {
-  id        Int     @id(map: "PK__Funciona__3213E83F8BDE3E83") @default(autoincrement())
-  pessoa_id Int?
-  cargo_id  Int?
-  Cargo     Cargo?  @relation(fields: [cargo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Funcionar__cargo__4222D4EF")
-  Pessoa    Pessoa? @relation(fields: [pessoa_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Funcionar__pesso__412EB0B6")
-}
-
-model Pagamento {
-  id                Int            @id(map: "PK__Pagament__3213E83FF664A668") @default(autoincrement())
-  reserva_id        Int?
-  tipo_pagamento_id Int?
-  valor             Decimal        @db.Decimal(10, 2)
-  data_pagamento    DateTime?      @default(dbgenerated("sysdatetimeoffset()"), map: "DF__Pagamento__data___5FB337D6") @db.DateTimeOffset
-  Reserva           Reserva?       @relation(fields: [reserva_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Pagamento__reser__60A75C0F")
-  TipoPagamento     TipoPagamento? @relation(fields: [tipo_pagamento_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Pagamento__tipo___619B8048")
-}
-
-model Permissao {
-  id              Int               @id(map: "PK__Permissa__3213E83FE3CF862F") @default(autoincrement())
-  descricao       String            @unique(map: "UQ__Permissa__91D38C28D8DE6286") @db.NVarChar(255)
-  PessoaPermissao PessoaPermissao[]
-}
-
 model Pessoa {
-  id                     Int               @id(map: "PK__Pessoa__3213E83FCABE3705") @default(autoincrement())
+  id                     Int               @id @default(autoincrement())
   nome                   String            @db.NVarChar(255)
   sobrenome              String            @db.NVarChar(255)
-  email                  String            @unique(map: "UQ__Pessoa__AB6E61645245B831") @db.NVarChar(255)
+  email                  String            @unique @db.NVarChar(255)
   senha                  String            @db.NVarChar(255)
-  cpf                    String            @unique(map: "UQ__Pessoa__D836E71F6F1B6F14") @db.NVarChar(11)
-  ativo                  Boolean?          @default(true, map: "DF__Pessoa__ativo__3B75D760")
-  identidade             String?           @db.NVarChar(10)
+  cpf                    String            @unique @db.NVarChar(11)
+  ativo                  Boolean?          @default(true)
   numero_contato         String            @db.NVarChar(20)
   endereco               String?           @db.NVarChar(255)
   cidade                 String?           @db.NVarChar(255)
   pais                   String?           @db.NVarChar(255)
-  comprovante_residencia String?           @db.NVarChar(255)
   data_nascimento        DateTime?         @db.Date
-  genero                 String?           @db.NVarChar(50)
+  comprovante_residencia String?           @db.NVarChar(255)
   nacionalidade          String?           @db.NVarChar(100)
-  data_criacao           DateTime?         @default(dbgenerated("sysdatetimeoffset()"), map: "DF__Pessoa__data_cri__628FA481") @db.DateTimeOffset
-  data_atualizacao       DateTime?         @default(dbgenerated("sysdatetimeoffset()"), map: "DF__Pessoa__data_atu__6383C8BA") @db.DateTimeOffset
-  telefone               String?           @db.NVarChar(20)
-  Cliente                Cliente[]
-  Funcionario            Funcionario[]
+  genero                 String?           @db.NVarChar(50)
+  data_criacao           DateTime?         @default(now()) @db.DateTime
+  data_atualizacao       DateTime?         @updatedAt
   PessoaPermissao        PessoaPermissao[]
+  Reservas               Reserva[]
+  Pagamentos             Pagamento[]
+}
+
+model Permissao {
+  id              Int               @id @default(autoincrement())
+  descricao       String            @unique @db.NVarChar(255)
+  PessoaPermissao PessoaPermissao[]
 }
 
 model PessoaPermissao {
-  id           Int        @id(map: "PK__PessoaPe__3213E83F38823A07") @default(autoincrement())
-  pessoa_id    Int?
-  permissao_id Int?
-  Permissao    Permissao? @relation(fields: [permissao_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__PessoaPer__permi__48CFD27E")
-  Pessoa       Pessoa?    @relation(fields: [pessoa_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__PessoaPer__pesso__47DBAE45")
-}
-
-model Plano {
-  id        Int       @id(map: "PK__Plano__3213E83FF8468C12") @default(autoincrement())
-  descricao String    @db.NVarChar(255)
-  preco     Decimal   @db.Decimal(10, 2)
-  Reserva   Reserva[]
-}
-
-model Quarto {
-  id             Int         @id(map: "PK__Quarto__3213E83FAA3D62E3") @default(autoincrement())
-  numero         String      @db.NVarChar(255)
-  tipo_quarto_id Int?
-  id_status      Int?
-  imagem         String?     @db.NVarChar(255)
-  Status         Status?     @relation(fields: [id_status], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Quarto__id_statu__571DF1D5")
-  TipoQuarto     TipoQuarto? @relation(fields: [tipo_quarto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Quarto__tipo_qua__5629CD9C")
-  Reserva        Reserva[]
+  id           Int        @id @default(autoincrement())
+  pessoa_id    Int
+  permissao_id Int
+  Pessoa       Pessoa     @relation(fields: [pessoa_id], references: [id])
+  Permissao    Permissao  @relation(fields: [permissao_id], references: [id])
 }
 
 model Reserva {
-  id            Int         @id(map: "PK__Reserva__3213E83F7494D64B") @default(autoincrement())
-  cliente_id    Int?
-  quarto_id     Int?
-  data_checkin  DateTime    @db.DateTimeOffset
-  data_checkout DateTime    @db.DateTimeOffset
-  status_id     Int?
-  plano_id      Int?
-  Pagamento     Pagamento[]
-  Cliente       Cliente?    @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reserva__cliente__59FA5E80")
-  Plano         Plano?      @relation(fields: [plano_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reserva__plano_i__5CD6CB2B")
-  Quarto        Quarto?     @relation(fields: [quarto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reserva__quarto___5AEE82B9")
-  Status        Status?     @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reserva__status___5BE2A6F2")
+  id            Int         @id @default(autoincrement())
+  pessoa_id     Int
+  quarto_id     Int
+  data_checkin  DateTime    @db.DateTime
+  data_checkout DateTime    @db.DateTime
+  status_id     Int
+  plano_id      Int
+  pessoa        Pessoa      @relation(fields: [pessoa_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Quarto        Quarto      @relation(fields: [quarto_id], references: [id])
+  Status        Status      @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Plano         Plano       @relation(fields: [plano_id], references: [id])
+  Pagamentos    Pagamento[]
 }
 
-model Servico {
-  id        Int     @id(map: "PK__Servico__3213E83F08ED2DD4") @default(autoincrement())
-  descricao String  @db.NVarChar(255)
-  preco     Decimal @db.Decimal(10, 2)
-}
 
-model Status {
-  id        Int       @id(map: "PK__Status__3213E83F4FA7A5DF") @default(autoincrement())
-  descricao String    @unique(map: "UQ__Status__91D38C28366AF81A") @db.NVarChar(255)
-  Quarto    Quarto[]
-  Reserva   Reserva[]
-}
-
-model TipoPagamento {
-  id        Int         @id(map: "PK__TipoPaga__3213E83FE1CD971D") @default(autoincrement())
-  descricao String      @db.NVarChar(255)
-  Pagamento Pagamento[]
+model Quarto {
+  id             Int         @id @default(autoincrement())
+  numero         String      @unique @db.NVarChar(255)
+  tipo_quarto_id Int
+  id_status      Int
+  TipoQuarto     TipoQuarto  @relation(fields: [tipo_quarto_id], references: [id])
+  Status         Status      @relation(fields: [id_status], references: [id])
+  Reservas       Reserva[]
 }
 
 model TipoQuarto {
-  id           Int      @id(map: "PK__TipoQuar__3213E83F42A66E1C") @default(autoincrement())
-  descricao    String   @db.NVarChar(255)
-  preco_diaria Decimal  @db.Decimal(10, 2)
-  Quarto       Quarto[]
+  id           Int       @id @default(autoincrement())
+  descricao    String    @db.NVarChar(255)
+  preco_diaria Decimal   @db.Decimal(10, 2)
+  Quartos      Quarto[]
+}
+
+model Status {
+  id        Int       @id @default(autoincrement())
+  descricao String    @unique @db.NVarChar(255)
+  Quartos   Quarto[]
+  Reservas  Reserva[]
+}
+
+model Pagamento {
+  id                Int            @id @default(autoincrement())
+  pessoa_id         Int
+  reserva_id        Int
+  tipo_pagamento_id Int
+  valor             Decimal        @db.Decimal(10, 2)
+  data_pagamento    DateTime?      @default(now()) @db.DateTime
+  Pessoa            Pessoa         @relation(fields: [pessoa_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Reserva           Reserva        @relation(fields: [reserva_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  TipoPagamento     TipoPagamento  @relation(fields: [tipo_pagamento_id], references: [id])
+}
+
+model TipoPagamento {
+  id          Int         @id @default(autoincrement())
+  descricao   String      @db.NVarChar(255)
+  Pagamentos  Pagamento[]
+}
+
+model Plano {
+  id          Int       @id @default(autoincrement())
+  descricao   String    @db.NVarChar(255)
+  preco       Decimal   @db.Decimal(10, 2)
+  Reservas    Reserva[]
 }

@@ -5,8 +5,6 @@ export class Pessoa {
   email: string;
   senha: string;
   cpf: string;
-  identidade?: string;
-  telefone?: string;
   numero_contato: string;
   endereco?: string;
   cidade?: string;

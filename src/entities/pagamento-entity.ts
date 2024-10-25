@@ -1,7 +1,7 @@
 import { Decimal } from '@prisma/client/runtime/library';
 
 export class Pagamento {
-  id: number;
+  pessoa_id: number;
   reserva_id: number;
   tipo_pagamento_id: number;
   valor: Decimal;

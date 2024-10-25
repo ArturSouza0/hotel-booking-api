@@ -11,6 +11,7 @@ import {
 
 import { PessoaBody } from 'src/dtos/criar-pessoa';
 import { PessoaService } from './pessoa.service';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('pessoa')
 export class PessoaController {
@@ -39,7 +40,7 @@ export class PessoaController {
     const pessoas = await this.pessoaService.findAll();
     return pessoas;
   }
-
+  @IsPublic()
   @Post('cadastrar')
   async create(@Body() body: PessoaBody) {
     const pessoaCriada = await this.pessoaService.create(body);

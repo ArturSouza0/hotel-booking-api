@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { PermissaoBody } from 'src/dtos/criar-permissao';
 import { PermissaoService } from 'src/services/permissao.service';
 
@@ -28,7 +29,7 @@ export class PermissaoController {
   async findAll() {
     return await this.permissaoService.findAll();
   }
-
+  @IsPublic()
   @Post('cadastrar')
   async create(@Body() body: PermissaoBody) {
     const permissaoCriada = await this.permissaoService.create(body);

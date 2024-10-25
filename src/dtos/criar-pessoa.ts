@@ -52,17 +52,7 @@ export class PessoaBody {
   })
   cpf: string;
 
-  @IsOptional()
   @IsString()
-  identidade?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(1, 20, {
-    message: 'O telefone deve ter entre 1 e 20 caracteres',
-  })
-  telefone?: string;
-
   @IsNotEmpty({
     message: 'O número de contato é obrigatório!',
   })
