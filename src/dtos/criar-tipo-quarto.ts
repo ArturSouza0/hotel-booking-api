@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class TipoQuartoBody {
-  id: number;
+  id?: number;
 
   @IsNotEmpty({
     message: 'A descrição do tipo do quarto é obrigatória!',

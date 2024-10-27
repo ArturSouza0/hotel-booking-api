@@ -9,6 +9,14 @@ export class PrismaTipoQuartoRepository implements TipoQuartoRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: TipoQuartoBody): Promise<TipoQuarto> {
+    const existingTipoQuarto = await this.prisma.tipoQuarto.findFirst({
+      where: { descricao: data.descricao },
+    });
+
+    if (existingTipoQuarto) {
+      throw new Error(`A descrição ${data.descricao} já existe.`);
+    }
+
     return await this.prisma.tipoQuarto.create({
       data: {
         ...data,

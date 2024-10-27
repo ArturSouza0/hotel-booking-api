@@ -7,11 +7,21 @@ import { Quarto } from 'src/entities/quarto-entity';
 @Injectable()
 export class PrismaQuartoRepository implements QuartoRepository {
   constructor(private prisma: PrismaService) {}
+  private readonly ID_STATUS_DISPONIVEL = 1;
 
   async create(data: QuartoBody): Promise<Quarto> {
-    return await this.prisma.quarto.create({
+    const existingQuarto = await this.prisma.quarto.findUnique({
+      where: { numero: data.numero },
+    });
+
+    if (existingQuarto) {
+      throw new Error(`O quarto com número ${data.numero} já existe.`);
+    }
+
+    return this.prisma.quarto.create({
       data: {
         ...data,
+        id_status: this.ID_STATUS_DISPONIVEL,
       },
     });
   }

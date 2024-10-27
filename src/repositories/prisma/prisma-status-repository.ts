@@ -9,6 +9,14 @@ export class PrismaStatusRepository implements StatusRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: StatusBody): Promise<Status> {
+    const existingStatus = await this.prisma.status.findUnique({
+      where: { descricao: data.descricao },
+    });
+
+    if (existingStatus) {
+      throw new Error(`A descrição do status ${data.descricao} já existe.`);
+    }
+
     return await this.prisma.status.create({
       data: {
         ...data,
