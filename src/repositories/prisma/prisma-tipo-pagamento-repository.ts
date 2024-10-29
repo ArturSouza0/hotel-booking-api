@@ -9,6 +9,13 @@ export class PrismaTipoPagamentoRepository implements TipoPagamentoRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: TipoPagamentoBody): Promise<TipoPagamento> {
+    const existingTipoPagamento = await this.prisma.tipoPagamento.findFirst({
+      where: { descricao: data.descricao },
+    });
+
+    if (existingTipoPagamento) {
+      throw new Error(`O tipo pagamento ${data.descricao} já existe.`);
+    }
     return await this.prisma.tipoPagamento.create({
       data: {
         ...data,
